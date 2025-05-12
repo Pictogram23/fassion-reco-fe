@@ -6,7 +6,7 @@ type Props = {
 };
 
 export function Coordinate({ label, onChange }: Props) {
-	const handleChange = (event: React.FormEvent<HTMLDivElement>) => {
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value: string = event.target.value;
 		const slicedValue = value.slice(5).slice(0, -1).replaceAll(" ", "");
 		const splitedValue = slicedValue.split(",");
@@ -15,7 +15,9 @@ export function Coordinate({ label, onChange }: Props) {
 	};
 
 	return (
-		<ColorPicker.Root onChange={(e) => handleChange(e)}>
+		<ColorPicker.Root
+			onChange={(e) => handleChange(e as React.ChangeEvent<HTMLInputElement>)}
+		>
 			<ColorPicker.HiddenInput />
 			<ColorPicker.Label>
 				<Heading>{label}</Heading>

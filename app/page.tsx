@@ -12,8 +12,8 @@ type Response = {
 
 export default function Home() {
 	const [review, setReview] = useState<number | undefined>();
-	const [tops, setTops] = useState<number[]>();
-	const [bottoms, setBottoms] = useState<number[]>();
+	const [tops, setTops] = useState<number[]>([0, 0, 0, 1]);
+	const [bottoms, setBottoms] = useState<number[]>([0, 0, 0, 1]);
 
 	const handleSubmit = async () => {
 		if (!tops || !bottoms) return;
