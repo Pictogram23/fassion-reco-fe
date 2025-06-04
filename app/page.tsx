@@ -17,11 +17,15 @@ import { useState } from "react";
 import { LuX } from "react-icons/lu";
 
 type Response = {
-	result: number;
+	score: number;
+	harmony: number;
+	comment: string;
 };
 
 export default function Home() {
-	const [review, setReview] = useState<number | undefined>();
+	const [score, setScore] = useState<number | undefined>();
+	const [harmony, setHarmony] = useState<number | undefined>();
+	const [comment, setComment] = useState<string | undefined>();
 	const [tops, setTops] = useState<number[]>([0, 0, 0, 1]);
 	const [bottoms, setBottoms] = useState<number[]>([0, 0, 0, 1]);
 
@@ -35,7 +39,9 @@ export default function Home() {
 			body: JSON.stringify({ tops: tops, bottoms: bottoms }),
 		});
 		const data: Response = await res.json();
-		setReview(data.result);
+		setScore(data.score);
+		setHarmony(data.harmony);
+		setComment(data.comment);
 	};
 
 	const FileUploadList = () => {
@@ -93,7 +99,13 @@ export default function Home() {
 					</Button>
 				</Flex>
 				<Flex mt={10}>
-					<Text>あなたのコーディネートは {review} 点です</Text>
+					<Text>
+						色差スコア：{score}
+						<br />
+						調和度：{harmony}
+						<br />
+						コメント：{comment}
+					</Text>
 				</Flex>
 			</Container>
 		</>
