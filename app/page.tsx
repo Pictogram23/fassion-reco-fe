@@ -81,7 +81,7 @@ export default function Home() {
 						<FileUpload.HiddenInput />
 						<FileUpload.Trigger asChild>
 							<Button variant="outline" size="sm">
-								Upload file
+								画像をアップロード
 							</Button>
 						</FileUpload.Trigger>
 						<FileUploadList />
