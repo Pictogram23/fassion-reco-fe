@@ -45,7 +45,7 @@ export default function Home() {
 
 	const handleSubmit = async () => {
 		if (!tops || !bottoms || !season[0]) return;
-		const res = await fetch(`${API_BASE_URL}/`, {
+		const res = await fetch(`${API_BASE_URL}/api/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
