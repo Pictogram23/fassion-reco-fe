@@ -16,9 +16,10 @@ import {
 import { useState } from "react";
 
 type Response = {
-	score: number;
-	harmony: number;
+	total_score: number;
 	comment: string;
+	recommend_top: number[];
+	recommend_bottom: number[];
 };
 
 export default function Home() {
@@ -33,8 +34,11 @@ export default function Home() {
 	});
 
 	const [score, setScore] = useState<number | undefined>();
-	const [harmony, setHarmony] = useState<number | undefined>();
 	const [comment, setComment] = useState<string | undefined>();
+	const [recommendTop, setRecommendTop] = useState<number[] | undefined>();
+	const [recommendBottom, setRecommendBottom] = useState<
+		number[] | undefined
+	>();
 	const [tops, setTops] = useState<number[]>([0, 0, 0, 1]);
 	const [bottoms, setBottoms] = useState<number[]>([0, 0, 0, 1]);
 	const [season, setSeason] = useState<string[]>(["none"]);
@@ -49,9 +53,10 @@ export default function Home() {
 			body: JSON.stringify({ tops: tops, bottoms: bottoms, season: season[0] }),
 		});
 		const data: Response = await res.json();
-		setScore(data.score);
-		setHarmony(data.harmony);
+		setScore(data.total_score);
 		setComment(data.comment);
+		setRecommendTop(data.recommend_top);
+		setRecommendBottom(data.recommend_bottom);
 	};
 
 	return (
@@ -105,11 +110,19 @@ export default function Home() {
 				</Flex>
 				<Flex mt={10}>
 					<Text>
-						色差スコア：{score}
-						<br />
-						調和度：{harmony}
+						スコア：{score}
 						<br />
 						コメント：{comment}
+						<br />
+						おすすめのトップスカラー：
+						{recommendTop
+							? `${recommendTop[0]}, ${recommendTop[1]}, ${recommendTop[2]}`
+							: ""}
+						<br />
+						おすすめのボトムスカラー：
+						{recommendBottom
+							? `${recommendBottom[0]}, ${recommendBottom[1]}, ${recommendBottom[2]}`
+							: ""}
 					</Text>
 				</Flex>
 			</Container>
