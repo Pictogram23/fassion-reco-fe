@@ -16,6 +16,8 @@ jobs:
     - name: Create env file
       run: |
         echo "NEXT_PUBLIC_API_BASE_URL=$API_BASE_URL" > .env.production
+      env:
+        API_BASE_URL: ${{ secrets.API_BASE_URL }}
 
     - name: Install dependencies
       run: npm ci
@@ -32,4 +34,3 @@ jobs:
         SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
         VPS_HOST: ${{ secrets.VPS_HOST }}
         VPS_USER: ${{ secrets.VPS_USER }}
-        API_BASE_URL: ${{ secrets.API_BASE_URL }}
