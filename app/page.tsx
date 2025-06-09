@@ -4,7 +4,15 @@ import { Coordinate } from "@/components/Coordinate";
 import { Header } from "@/components/Header";
 import { Reference } from "@/components/Reference";
 import { API_BASE_URL } from "@/const";
-import { Button, Container, FileUpload, Flex, Text } from "@chakra-ui/react";
+import {
+	Button,
+	Container,
+	createListCollection,
+	Flex,
+	Portal,
+	Select,
+	Text,
+} from "@chakra-ui/react";
 import { useState } from "react";
 
 type Response = {
@@ -14,20 +22,31 @@ type Response = {
 };
 
 export default function Home() {
+	const seasons = createListCollection({
+		items: [
+			{ label: "指定しない", value: "none" },
+			{ label: "春", value: "spring" },
+			{ label: "夏", value: "summer" },
+			{ label: "秋", value: "autumn" },
+			{ label: "冬", value: "winter" },
+		],
+	});
+
 	const [score, setScore] = useState<number | undefined>();
 	const [harmony, setHarmony] = useState<number | undefined>();
 	const [comment, setComment] = useState<string | undefined>();
 	const [tops, setTops] = useState<number[]>([0, 0, 0, 1]);
 	const [bottoms, setBottoms] = useState<number[]>([0, 0, 0, 1]);
+	const [season, setSeason] = useState<string[]>(["none"]);
 
 	const handleSubmit = async () => {
-		if (!tops || !bottoms) return;
+		if (!tops || !bottoms || !season[0]) return;
 		const res = await fetch(`${API_BASE_URL}/`, {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ tops: tops, bottoms: bottoms }),
+			body: JSON.stringify({ tops: tops, bottoms: bottoms, season: season[0] }),
 		});
 		const data: Response = await res.json();
 		setScore(data.score);
@@ -47,6 +66,37 @@ export default function Home() {
 				</Flex>
 				<Flex mt={5}>
 					<Reference />
+				</Flex>
+				<Flex mt={5}>
+					<Select.Root
+						collection={seasons}
+						width="180px"
+						value={season}
+						onValueChange={(e) => setSeason(e.value)}
+						defaultValue={["none"]}
+					>
+						<Select.Label>季節</Select.Label>
+						<Select.Control>
+							<Select.Trigger>
+								<Select.ValueText placeholder="選択してください" />
+							</Select.Trigger>
+							<Select.IndicatorGroup>
+								<Select.Indicator />
+							</Select.IndicatorGroup>
+						</Select.Control>
+						<Portal>
+							<Select.Positioner>
+								<Select.Content>
+									{seasons.items.map((s) => (
+										<Select.Item item={s} key={s.value}>
+											{s.label}
+											<Select.ItemIndicator />
+										</Select.Item>
+									))}
+								</Select.Content>
+							</Select.Positioner>
+						</Portal>
+					</Select.Root>
 				</Flex>
 				<Flex mt={5}>
 					<Button bg={"blue.500"} onClick={handleSubmit}>
