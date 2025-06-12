@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Reference } from "@/components/Reference";
 import { API_BASE_URL } from "@/const";
 import {
+	Box,
 	Button,
 	Container,
 	createListCollection,
@@ -32,6 +33,11 @@ export default function Home() {
 			{ label: "冬", value: "winter" },
 		],
 	});
+
+	const to16 = (val: number) => {
+		const hex = val.toString(16);
+		return hex.length === 1 ? `0${hex}` : hex;
+	};
 
 	const [score, setScore] = useState<number | undefined>();
 	const [comment, setComment] = useState<string | undefined>();
@@ -109,21 +115,43 @@ export default function Home() {
 					</Button>
 				</Flex>
 				<Flex mt={10}>
-					<Text>
+					<div>
 						スコア：{score}
 						<br />
 						コメント：{comment}
 						<br />
 						おすすめのトップスカラー：
-						{recommendTop
-							? `${recommendTop[0]}, ${recommendTop[1]}, ${recommendTop[2]}`
-							: ""}
+						{recommendTop ? (
+							<>
+								{`#${to16(recommendTop[0])}${to16(recommendTop[1])}${to16(recommendTop[2])}`}
+								<Box
+									w={8}
+									h={8}
+									bg={`#${to16(recommendTop[0])}${to16(recommendTop[1])}${to16(recommendTop[2])}`}
+								>
+									{" "}
+								</Box>
+							</>
+						) : (
+							<></>
+						)}
 						<br />
-						おすすめのボトムスカラー：
-						{recommendBottom
-							? `${recommendBottom[0]}, ${recommendBottom[1]}, ${recommendBottom[2]}`
-							: ""}
-					</Text>
+						おすすめのボトムスカラー
+						{recommendBottom ? (
+							<>
+								{`#${to16(recommendBottom[0])}${to16(recommendBottom[1])}${to16(recommendBottom[2])}`}
+								<Box
+									w={8}
+									h={8}
+									bg={`#${to16(recommendBottom[0])}${to16(recommendBottom[1])}${to16(recommendBottom[2])}`}
+								>
+									{" "}
+								</Box>
+							</>
+						) : (
+							<></>
+						)}
+					</div>
 				</Flex>
 			</Container>
 		</>
