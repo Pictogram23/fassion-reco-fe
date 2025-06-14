@@ -134,7 +134,7 @@ export default function Home() {
 				</div>
 				<Flex mt={10}>
 					<div>
-						スコア：{score}/100
+						スコア：{score ? score : 0}/100
 						<br />
 						コメント：{comment}
 						<br />
