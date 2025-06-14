@@ -8,6 +8,7 @@ type Props = {
 export function Coordinate({ label, onChange }: Props) {
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const value: string = event.target.value;
+		if (value.includes("#")) return;
 		const slicedValue = value.slice(5).slice(0, -1).replaceAll(" ", "");
 		const splitedValue = slicedValue.split(",");
 		const encodedValue = splitedValue.map(Number);

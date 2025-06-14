@@ -10,9 +10,9 @@ import {
 	Container,
 	createListCollection,
 	Flex,
+	Image,
 	Portal,
 	Select,
-	Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -35,6 +35,7 @@ export default function Home() {
 	});
 
 	const to16 = (val: number) => {
+		if (val === undefined) return undefined;
 		const hex = val.toString(16);
 		return hex.length === 1 ? `0${hex}` : hex;
 	};
@@ -69,51 +70,62 @@ export default function Home() {
 		<>
 			<Header />
 			<Container mt={5}>
-				<Flex>
-					<Coordinate label="トップス" onChange={(e) => setTops(e)} />
-				</Flex>
-				<Flex mt={5}>
-					<Coordinate label="ボトムス" onChange={(e) => setBottoms(e)} />
-				</Flex>
-				<Flex mt={5}>
-					<Reference />
-				</Flex>
-				<Flex mt={5}>
-					<Select.Root
-						collection={seasons}
-						width="180px"
-						value={season}
-						onValueChange={(e) => setSeason(e.value)}
-						defaultValue={["none"]}
-					>
-						<Select.Label>季節</Select.Label>
-						<Select.Control>
-							<Select.Trigger>
-								<Select.ValueText placeholder="選択してください" />
-							</Select.Trigger>
-							<Select.IndicatorGroup>
-								<Select.Indicator />
-							</Select.IndicatorGroup>
-						</Select.Control>
-						<Portal>
-							<Select.Positioner>
-								<Select.Content>
-									{seasons.items.map((s) => (
-										<Select.Item item={s} key={s.value}>
-											{s.label}
-											<Select.ItemIndicator />
-										</Select.Item>
-									))}
-								</Select.Content>
-							</Select.Positioner>
-						</Portal>
-					</Select.Root>
-				</Flex>
-				<Flex mt={5}>
-					<Button bg={"blue.500"} onClick={handleSubmit}>
-						送信
-					</Button>
-				</Flex>
+				<div style={{ maxWidth: 640, display: "flex" }}>
+					<div style={{ flexGrow: 1 }}>
+						<Flex>
+							<Coordinate label="トップス" onChange={(e) => setTops(e)} />
+						</Flex>
+						<Flex mt={5}>
+							<Coordinate label="ボトムス" onChange={(e) => setBottoms(e)} />
+						</Flex>
+						<Flex mt={5}>
+							<Reference />
+						</Flex>
+						<Flex mt={5}>
+							<Select.Root
+								collection={seasons}
+								width="180px"
+								value={season}
+								onValueChange={(e) => setSeason(e.value)}
+								defaultValue={["none"]}
+							>
+								<Select.Label>季節</Select.Label>
+								<Select.Control>
+									<Select.Trigger>
+										<Select.ValueText placeholder="選択してください" />
+									</Select.Trigger>
+									<Select.IndicatorGroup>
+										<Select.Indicator />
+									</Select.IndicatorGroup>
+								</Select.Control>
+								<Portal>
+									<Select.Positioner>
+										<Select.Content>
+											{seasons.items.map((s) => (
+												<Select.Item item={s} key={s.value}>
+													{s.label}
+													<Select.ItemIndicator />
+												</Select.Item>
+											))}
+										</Select.Content>
+									</Select.Positioner>
+								</Portal>
+							</Select.Root>
+						</Flex>
+						<Flex mt={5}>
+							<Button bg={"blue.500"} onClick={handleSubmit}>
+								送信
+							</Button>
+						</Flex>
+					</div>
+					<div style={{ flexGrow: 1 }}>
+						<Image
+							src={"tops.png"}
+							w={160}
+							bg={`#${to16(tops[0])}${to16(tops[1])}${to16(tops[2])}`}
+						/>
+					</div>
+				</div>
 				<Flex mt={10}>
 					<div>
 						スコア：{score}
@@ -136,7 +148,7 @@ export default function Home() {
 							<></>
 						)}
 						<br />
-						おすすめのボトムスカラー
+						おすすめのボトムスカラー：
 						{recommendBottom ? (
 							<>
 								{`#${to16(recommendBottom[0])}${to16(recommendBottom[1])}${to16(recommendBottom[2])}`}
