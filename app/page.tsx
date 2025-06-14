@@ -124,11 +124,17 @@ export default function Home() {
 							w={160}
 							bg={`#${to16(tops[0])}${to16(tops[1])}${to16(tops[2])}`}
 						/>
+						<Image
+							mt={2}
+							src={"bottoms.png"}
+							w={160}
+							bg={`#${to16(bottoms[0])}${to16(bottoms[1])}${to16(bottoms[2])}`}
+						/>
 					</div>
 				</div>
 				<Flex mt={10}>
 					<div>
-						スコア：{score}
+						スコア：{score}/100
 						<br />
 						コメント：{comment}
 						<br />
