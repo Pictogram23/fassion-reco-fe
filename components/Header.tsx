@@ -22,7 +22,7 @@ export function Header() {
 					fontWeight={"bold"}
 					fontSize={"large"}
 				>
-					アプリ名未定
+					IROCA
 				</Link>
 			</Flex>
 		</Box>
